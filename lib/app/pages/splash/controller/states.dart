@@ -14,5 +14,6 @@ abstract class SplashState with _$SplashState {
   factory SplashState({
     @Default(SplashStateStatus.initial) SplashStateStatus status,
     String? error,
+    @Default([]) List<String> msg,
   }) = _SplashState;
 }

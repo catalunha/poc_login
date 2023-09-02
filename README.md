@@ -26,6 +26,7 @@ flutter pub add \
   dev:riverpod_lint
 
 flutter pub add \
+  dio \
   freezed_annotation \
   json_annotation \
   go_router \
