@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:poc_login/app/pages/splash/controller/states.dart';
+import 'package:poc_login/app/services/providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'providers.g.dart';
@@ -9,22 +10,39 @@ part 'providers.g.dart';
 class SplashController extends _$SplashController {
   @override
   Future<SplashState> build() async {
+    //+++ modo lento
     // log('start', name: 'SplashController.build');
     // final msgs = <String>[];
-    // msgs.add('Iniciando...');
+    // msgs.add('Buscando token de último login ...');
     // state = AsyncValue.data(
     //     SplashState(status: SplashStateStatus.initial, msg: msgs));
-    // await Future.delayed(const Duration(seconds: 5));
-    // // msgs.length
-    // msgs[msgs.length - 1] = '${msgs[msgs.length - 1]} ✅';
+    // await Future.delayed(const Duration(seconds: 2));
+    // final hasToken = await ref.read(userServiceProvider).hasToken();
+    // if (hasToken) {
+    //   // msgs.length
+    //   msgs[msgs.length - 1] = '${msgs[msgs.length - 1]} ✅';
+    //   msgs.add('Encontrado. Indo para Home...');
+    //   state =
+    //       AsyncData(SplashState(status: SplashStateStatus.initial, msg: msgs));
+    //   await Future.delayed(const Duration(seconds: 2));
+    //   return SplashState(status: SplashStateStatus.logged);
+    // } else {
+    //   msgs[msgs.length - 1] = '${msgs[msgs.length - 1]} 🚫';
+    //   msgs.add('Não encontrado. Indo para Login...');
+    //   state =
+    //       AsyncData(SplashState(status: SplashStateStatus.initial, msg: msgs));
+    //   await Future.delayed(const Duration(seconds: 2));
+    // }
+    //--- modo lento
 
-    // log('5 secs', name: 'SplashController.build');
-    // msgs.add('Obtendo dados de ...');
-    // state =
-    //     AsyncData(SplashState(status: SplashStateStatus.initial, msg: msgs));
+    //+++ modo rápido
+    await Future.delayed(const Duration(seconds: 2));
+    final hasToken = await ref.read(userServiceProvider).hasToken();
+    if (hasToken) {
+      return SplashState(status: SplashStateStatus.logged);
+    }
+    //--- modo rápido
 
-    // await Future.delayed(const Duration(seconds: 5));
-    // log('10 secs', name: 'SplashController.build');
     return SplashState(status: SplashStateStatus.login);
   }
 }

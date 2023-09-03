@@ -3,11 +3,11 @@ import 'package:poc_login/app/core/app_constants.dart';
 
 mixin AppMessages {
   void showMessageError(BuildContext context, String msg) {
-    _showMessage(context, msg, Colors.red);
+    _showMessage(context, msg, AppColors.red);
   }
 
   void showMessageInfo(BuildContext context, String msg) {
-    _showMessage(context, msg, Colors.black12);
+    _showMessage(context, msg, AppColors.blue);
   }
 
   void _showMessage(BuildContext context, String msg, Color color) {
