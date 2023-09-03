@@ -50,3 +50,4 @@ analyzer:
     - custom_lint
 ```
 
+catalunha@pop-os:~/myapp/pocs/poc_login$ dart run build_runner watch -d

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:poc_login/app/core/exceptions/auth_exception.dart';
+import 'package:poc_login/app/core/exceptions/repository_exception.dart';
 import 'package:poc_login/app/core/exceptions/service_exception.dart';
 import 'package:poc_login/app/core/functional_program/either.dart';
+import 'package:poc_login/app/models/user_model.dart';
 import 'package:poc_login/app/repositories/user/user_repository.dart';
 import 'package:poc_login/app/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/app_constants.dart';
+import '../../core/app_config.dart';
 import '../../core/navigation_global_key.dart';
 import './user_service.dart';
 
@@ -30,16 +32,22 @@ class UserServiceImpl implements UserService {
   }
 
   @override
-  Future<Either<ServiceException, Nil>> register(
-      String email, String password) {
-    // TODO: implement register
-    throw UnimplementedError();
+  Future<Either<ServiceException, Nil>> create(
+      String email, String password) async {
+    final result = await userRepository.create(email, password);
+    switch (result) {
+      case Failure(:final exception):
+        return Failure(ServiceException(message: exception.message));
+      case Success():
+        return login(email, password);
+    }
   }
 
   @override
-  Future<bool> hasToken() async {
+  Future<bool> verifyToken() async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.containsKey(apiAccessTokenName);
+    final token = sharedPreferences.getString(apiAccessTokenName);
+    return await userRepository.verifyToken(token ?? '0');
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:poc_login/app/core/app_constants.dart';
+import 'package:poc_login/app/core/app_config.dart';
 import 'package:poc_login/app/pages/login/controller/providers.dart';
 import 'package:poc_login/app/pages/login/controller/states.dart';
 import 'package:poc_login/app/routes.dart';
@@ -119,9 +119,9 @@ class _LoginPageState extends ConsumerState<LoginPage>
                             'Ainda não implementado. Mas... Alguns campos estão inválidos');
                         break;
                       case true:
-                        showMessageInfo(context, 'Ainda não implementado');
-
-                        break;
+                        ref
+                            .read(loginControllerProvider.notifier)
+                            .create(email.text, password.text);
                     }
                   },
                   child: const Text('Registrar'),

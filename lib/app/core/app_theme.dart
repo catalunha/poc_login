@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'app_constants.dart';
+import 'app_config.dart';
 
 sealed class AppTheme {
   static ThemeData themeData = ThemeData(

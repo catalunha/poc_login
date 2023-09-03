@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poc_login/app/core/app_constants.dart';
+import 'package:poc_login/app/core/app_config.dart';
 
 mixin AppMessages {
   void showMessageError(BuildContext context, String msg) {
