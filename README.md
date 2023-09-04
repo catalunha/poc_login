@@ -1,6 +1,13 @@
 # poc_login
 
-Testando login com DjangoREST, JWT, Riverpod
+Frontend do POC para testar login
+
+Usando:
+DjangoREST
+JWT
+Riverpod
+
+O Backend deste app é poc_login_api
 
 ## Getting Started
 $
