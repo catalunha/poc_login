@@ -41,10 +41,10 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<RepositoryException, Nil>> create(
+  Future<Either<RepositoryException, Nil>> register(
       String email, String password) async {
     try {
-      await dioClient.unauth.post('/api/v0/users/', data: {
+      await dioClient.unauth.post('/api/v0/user/register/', data: {
         "username": email,
         "password": password,
       });

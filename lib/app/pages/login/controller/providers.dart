@@ -33,7 +33,7 @@ class LoginController extends _$LoginController {
   Future<void> create(String email, String password) async {
     state = state.copyWith(status: LoginStateStatus.loaging);
     final userService = ref.read(userServiceProvider);
-    final result = await userService.create(email, password);
+    final result = await userService.register(email, password);
     switch (result) {
       case Failure(:final exception):
         state = state.copyWith(

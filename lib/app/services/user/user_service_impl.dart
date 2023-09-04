@@ -32,9 +32,9 @@ class UserServiceImpl implements UserService {
   }
 
   @override
-  Future<Either<ServiceException, Nil>> create(
+  Future<Either<ServiceException, Nil>> register(
       String email, String password) async {
-    final result = await userRepository.create(email, password);
+    final result = await userRepository.register(email, password);
     switch (result) {
       case Failure(:final exception):
         return Failure(ServiceException(message: exception.message));
