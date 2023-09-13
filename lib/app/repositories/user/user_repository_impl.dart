@@ -22,7 +22,7 @@ class UserRepositoryImpl implements UserRepository {
     try {
       final Response(:data) =
           await dioClient.unauth.post(ApiV0EndPoints.userToken, data: {
-        "username": email,
+        "email": email,
         "password": password,
       });
       log('Token: ${data['access']}', name: 'Token');
@@ -46,7 +46,7 @@ class UserRepositoryImpl implements UserRepository {
       String email, String password) async {
     try {
       await dioClient.unauth.post(ApiV0EndPoints.userCreate, data: {
-        "username": email,
+        "email": email,
         "password": password,
       });
       return Success(Nil());
@@ -107,7 +107,7 @@ class UserRepositoryImpl implements UserRepository {
       required String number}) async {
     try {
       await dioClient.unauth.post(ApiV0EndPoints.userNewPassword, data: {
-        "username": email,
+        "email": email,
         "password": password,
         "number": number,
       });
@@ -129,7 +129,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<RepositoryException, Nil>> resetpassword(String email) async {
     try {
       await dioClient.unauth.post(ApiV0EndPoints.userResetPassword, data: {
-        "username": email,
+        "email": email,
       });
 
       return Success(Nil());

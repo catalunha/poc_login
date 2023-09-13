@@ -6,8 +6,8 @@ part 'user_model.g.dart';
 @freezed
 abstract class UserModel with _$UserModel {
   factory UserModel({
-    required int id,
-    required String username,
+    required String id,
+    required String email,
     @JsonKey(name: 'is_active') required bool isActive,
   }) = _UserModel;
   factory UserModel.fromJson(Map<String, dynamic> json) =>

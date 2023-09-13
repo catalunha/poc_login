@@ -33,7 +33,7 @@ class HomePage extends ConsumerWidget {
                     children: [
                       const Text('User'),
                       Text('id: ${data.id}'),
-                      Text('UserName: ${data.username}'),
+                      Text('email: ${data.email}'),
                     ],
                   );
                 },
@@ -56,6 +56,8 @@ class HomePage extends ConsumerWidget {
                       Text('user: ${data.user}'),
                       Text('Nickname: ${data.nickname}'),
                       Text('Name: ${data.name}'),
+                      Text('Foto: ${data.photo}'),
+                      Text('Celular: ${data.phone}'),
                     ],
                   );
                 },

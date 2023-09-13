@@ -7,8 +7,8 @@ part 'profile_model.g.dart';
 abstract class ProfileModel with _$ProfileModel {
   @JsonKey(includeIfNull: false)
   factory ProfileModel({
-    required int id,
-    required int user,
+    required String id,
+    required String user,
     String? nickname,
     String? name,
     String? photo,

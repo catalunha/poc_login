@@ -138,7 +138,7 @@ class _NewPasswordPageState extends ConsumerState<NewPasswordPage>
                             );
                     }
                   },
-                  child: const Text('Solicitar login'),
+                  child: const Text('Alterar senha'),
                 ),
               ],
             ),
