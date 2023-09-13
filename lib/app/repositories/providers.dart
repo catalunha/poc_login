@@ -24,6 +24,7 @@ ProfileRepository profileRepository(ProfileRepositoryRef ref) {
 @Riverpod(keepAlive: true)
 Future<UserModel> meUser(MeUserRef ref) async {
   final result = await ref.read(userRepositoryProvider).me();
+  ref.invalidate(meProfileProvider);
   return switch (result) {
     Success(:final value) => value,
     Failure(:final exception) => throw exception
@@ -32,7 +33,7 @@ Future<UserModel> meUser(MeUserRef ref) async {
 
 @Riverpod(keepAlive: true)
 Future<ProfileModel> meProfile(MeProfileRef ref) async {
-  final meUser = await ref.read(meUserProvider.future);
+  final meUser = await ref.watch(meUserProvider.future);
   final result = await ref.read(profileRepositoryProvider).me(meUser);
   return switch (result) {
     Success(:final value) => value,

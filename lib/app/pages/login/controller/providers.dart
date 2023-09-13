@@ -1,3 +1,4 @@
+import 'package:poc_login/app/core/exceptions/repository_exception.dart';
 import 'package:poc_login/app/core/exceptions/service_exception.dart';
 import 'package:poc_login/app/core/functional_program/either.dart';
 import 'package:poc_login/app/repositories/providers.dart';
@@ -16,7 +17,7 @@ class LoginController extends _$LoginController {
   }
 
   Future<void> login(String email, String password) async {
-    state = state.copyWith(status: LoginStateStatus.loaging);
+    state = state.copyWith(status: LoginStateStatus.loading);
     final userService = ref.read(userServiceProvider);
     final result = await userService.login(email, password);
     switch (result) {
@@ -25,13 +26,13 @@ class LoginController extends _$LoginController {
             status: LoginStateStatus.error, error: exception.message);
       case Success():
         ref.invalidate(meUserProvider);
-        ref.invalidate(meProfileProvider);
+        // ref.invalidate(meProfileProvider);
         state = state.copyWith(status: LoginStateStatus.success);
     }
   }
 
   Future<void> create(String email, String password) async {
-    state = state.copyWith(status: LoginStateStatus.loaging);
+    state = state.copyWith(status: LoginStateStatus.loading);
     final userService = ref.read(userServiceProvider);
     final result = await userService.register(email, password);
     switch (result) {
@@ -40,8 +41,20 @@ class LoginController extends _$LoginController {
             status: LoginStateStatus.error, error: exception.message);
       case Success():
         ref.invalidate(meUserProvider);
-        ref.invalidate(meProfileProvider);
+        // ref.invalidate(meProfileProvider);
         state = state.copyWith(status: LoginStateStatus.success);
+    }
+  }
+
+  Future<void> resetpassword(String email) async {
+    state = state.copyWith(status: LoginStateStatus.loading);
+    final result = await ref.read(userRepositoryProvider).resetpassword(email);
+    switch (result) {
+      case Failure(:final exception):
+        state = state.copyWith(
+            status: LoginStateStatus.error, error: exception.message);
+      case Success():
+        state = state.copyWith(status: LoginStateStatus.updated);
     }
   }
 }

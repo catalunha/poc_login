@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:poc_login/app/pages/home/home_page.dart';
 import 'package:poc_login/app/pages/login/login_page.dart';
 
+import 'pages/new_password/new_password_page.dart';
 import 'pages/splash/splash_page.dart';
 
 enum AppRoute {
   home('/home'),
+  newpassword('/newpassword'),
   login('/login'),
   splash('/');
 

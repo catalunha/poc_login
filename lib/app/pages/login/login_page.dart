@@ -6,6 +6,7 @@ import 'package:poc_login/app/pages/login/controller/states.dart';
 import 'package:poc_login/app/routes.dart';
 import 'package:validatorless/validatorless.dart';
 
+import '../new_password/new_password_page.dart';
 import '../utils/app_loader.dart';
 import '../utils/app_messages.dart';
 
@@ -19,6 +20,7 @@ class LoginPage extends ConsumerStatefulWidget {
 class _LoginPageState extends ConsumerState<LoginPage>
     with AppMessages, AppLoader {
   final formKey = GlobalKey<FormState>();
+  final emailKey = GlobalKey<FormFieldState>();
   final email = TextEditingController();
   final password = TextEditingController();
 
@@ -37,8 +39,17 @@ class _LoginPageState extends ConsumerState<LoginPage>
         switch (next.status) {
           case LoginStateStatus.initial:
             break;
-          case LoginStateStatus.loaging:
+          case LoginStateStatus.loading:
             showLoader(context);
+          case LoginStateStatus.updated:
+            hideLoader(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return NewPasswordPage(email: email.text);
+                },
+              ),
+            );
           case LoginStateStatus.success:
             hideLoader(context);
             Navigator.of(context)
@@ -65,6 +76,7 @@ class _LoginPageState extends ConsumerState<LoginPage>
                   child: SizedBox(
                     width: 300,
                     child: TextFormField(
+                      key: emailKey,
                       controller: email,
                       decoration: const InputDecoration(
                         label: Text('email'),
@@ -85,7 +97,7 @@ class _LoginPageState extends ConsumerState<LoginPage>
                     controller: password,
                     // obscureText: true,
                     decoration: const InputDecoration(
-                      label: Text('password'),
+                      label: Text('Senha'),
                     ),
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
                     validator: Validatorless.multiple(
@@ -97,10 +109,11 @@ class _LoginPageState extends ConsumerState<LoginPage>
                 ),
                 ElevatedButton(
                   onPressed: () {
+                    formKey.currentState?.reset();
                     switch (formKey.currentState?.validate()) {
                       case (false || null):
-                        showMessageInfo(
-                            context, 'Alguns campos estão inválidos');
+                        showMessageInfo(context,
+                            'Campos obrigatórios não foram preenchidos');
 
                       case true:
                         ref
@@ -116,7 +129,7 @@ class _LoginPageState extends ConsumerState<LoginPage>
                       case (false || null):
                         print('form error');
                         showMessageError(context,
-                            'Ainda não implementado. Mas... Alguns campos estão inválidos');
+                            'Campos obrigatórios não foram preenchidos');
                         break;
                       case true:
                         ref
@@ -125,7 +138,26 @@ class _LoginPageState extends ConsumerState<LoginPage>
                     }
                   },
                   child: const Text('Registrar'),
-                )
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    switch (emailKey.currentState?.validate()) {
+                      case (false || null):
+                        print('email invalido');
+                        showMessageError(context,
+                            'Campos obrigatórios não foram preenchidos');
+                      case true:
+                        print('email valido');
+                        // Navigator.of(context).pushNamed(
+                        //     AppRoute.newpassword.name,
+                        //     arguments: email.text);
+                        await ref
+                            .read(loginControllerProvider.notifier)
+                            .resetpassword(email.text);
+                    }
+                  },
+                  child: const Text('Solicitar nova senha'),
+                ),
               ],
             ),
           ),

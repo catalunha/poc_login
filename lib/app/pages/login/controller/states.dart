@@ -4,7 +4,8 @@ part 'states.freezed.dart';
 
 enum LoginStateStatus {
   initial,
-  loaging,
+  loading,
+  updated,
   success,
   error,
 }

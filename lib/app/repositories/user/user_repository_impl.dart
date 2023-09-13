@@ -55,9 +55,8 @@ class UserRepositoryImpl implements UserRepository {
           name: 'UserRepositoryImpl.create', error: e, stackTrace: s);
       if (e.response != null) {
         final Response(:statusCode) = e.response!;
-        if (statusCode == HttpStatus.unauthorized) {
-          return Failure(
-              RepositoryException(message: 'Email ou Senha inválidos.'));
+        if (statusCode == HttpStatus.badRequest) {
+          return Failure(RepositoryException(message: 'Usuário já existe.'));
         }
       }
       return Failure(
@@ -98,6 +97,48 @@ class UserRepositoryImpl implements UserRepository {
       log('Erro em UserRepositoryImpl.me ArgumentError',
           name: 'UserRepositoryImpl.me ArgumentError', error: e, stackTrace: s);
       return Failure(RepositoryException(message: e.message));
+    }
+  }
+
+  @override
+  Future<Either<RepositoryException, Nil>> newpassword(
+      {required String email,
+      required String password,
+      required String number}) async {
+    try {
+      await dioClient.unauth.post(ApiV0EndPoints.userNewPassword, data: {
+        "username": email,
+        "password": password,
+        "number": number,
+      });
+      return Success(Nil());
+    } on DioException catch (e, s) {
+      log(
+        "Erro em UserRepositoryImpl.newpassword",
+        name: "UserRepositoryImpl.newpassword",
+        error: e,
+        stackTrace: s,
+      );
+      return Failure(RepositoryException(
+          message: e.message ??
+              "Erro desconhecido em UserRepositoryImpl.newpassword"));
+    }
+  }
+
+  @override
+  Future<Either<RepositoryException, Nil>> resetpassword(String email) async {
+    try {
+      await dioClient.unauth.post(ApiV0EndPoints.userResetPassword, data: {
+        "username": email,
+      });
+
+      return Success(Nil());
+    } on DioException catch (e, s) {
+      log("Erro em UserRepositoryImpl.resetpassword",
+          name: "UserRepositoryImpl.resetpassword", error: e, stackTrace: s);
+      return Failure(RepositoryException(
+          message: e.message ??
+              'Erro desconhecido em UserRepositoryImpl.resetpassword'));
     }
   }
 }

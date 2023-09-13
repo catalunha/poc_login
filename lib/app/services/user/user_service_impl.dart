@@ -61,4 +61,23 @@ class UserServiceImpl implements UserService {
     Navigator.of(NavigationGlobalKey.instance.navigationKey.currentContext!)
         .pushNamedAndRemoveUntil(AppRoute.login.name, (route) => false);
   }
+
+  @override
+  Future<Either<ServiceException, Nil>> newpassword({
+    required String email,
+    required String password,
+    required String number,
+  }) async {
+    final result = await userRepository.newpassword(
+      email: email,
+      password: password,
+      number: number,
+    );
+    switch (result) {
+      case Failure(:final exception):
+        return Failure(ServiceException(message: exception.message));
+      case Success():
+        return login(email, password);
+    }
+  }
 }

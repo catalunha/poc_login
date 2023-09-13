@@ -21,7 +21,7 @@ class SplashController extends _$SplashController {
     final hasToken = await ref.read(userServiceProvider).verifyToken();
     if (hasToken) {
       ref.invalidate(meUserProvider);
-      ref.invalidate(meProfileProvider);
+      // ref.invalidate(meProfileProvider);
       msgs[msgs.length - 1] = '${msgs[msgs.length - 1]} ✅';
       msgs.add('Encontrado. Indo para Home...');
       state =
