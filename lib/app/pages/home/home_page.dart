@@ -53,8 +53,8 @@ class HomePage extends ConsumerWidget {
                     children: [
                       const Text('Profile'),
                       Text('id: ${data.id}'),
-                      Text('userId: ${data.userId}'),
-                      Text('UserName: ${data.userName}'),
+                      Text('user: ${data.user}'),
+                      Text('Nickname: ${data.nickname}'),
                       Text('Name: ${data.name}'),
                     ],
                   );

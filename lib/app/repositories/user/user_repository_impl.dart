@@ -8,6 +8,7 @@ import 'package:poc_login/app/core/functional_program/either.dart';
 import 'package:poc_login/app/data/remote/dio/dio_client.dart';
 import 'package:poc_login/app/models/user_model.dart';
 
+import '../../data/remote/api/endppoints.dart';
 import './user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
@@ -20,7 +21,7 @@ class UserRepositoryImpl implements UserRepository {
       String email, String password) async {
     try {
       final Response(:data) =
-          await dioClient.unauth.post('/api/v0/token/', data: {
+          await dioClient.unauth.post(ApiV0EndPoints.userToken, data: {
         "username": email,
         "password": password,
       });
@@ -44,7 +45,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<RepositoryException, Nil>> register(
       String email, String password) async {
     try {
-      await dioClient.unauth.post('/api/v0/user/register/', data: {
+      await dioClient.unauth.post(ApiV0EndPoints.userCreate, data: {
         "username": email,
         "password": password,
       });
@@ -69,7 +70,7 @@ class UserRepositoryImpl implements UserRepository {
     try {
       print('token = $token');
       final resp = await dioClient.unauth
-          .post('/api/v0/token/verify/', data: {"token": token});
+          .post(ApiV0EndPoints.userTokenVerify, data: {"token": token});
       print('verifyToken statusCode = ${resp.statusCode}');
       if (resp.statusCode == 200) {
         return true;
@@ -85,8 +86,9 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Either<RepositoryException, UserModel>> me() async {
     try {
-      final Response(:data) = await dioClient.auth.get('/api/v0/users/me');
-      return Success(UserModel.fromJson(data));
+      final Response(:data) = await dioClient.auth.get(ApiV0EndPoints.userMe);
+
+      return Success(UserModel.fromJson(data['user']));
     } on DioException catch (e, s) {
       log('Erro em UserRepositoryImpl.me DioException',
           name: 'UserRepositoryImpl.me DioException', error: e, stackTrace: s);

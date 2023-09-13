@@ -26,9 +26,7 @@ class MyAuthInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     final DioException(requestOptions: RequestOptions(:extra), :response) = err;
     print('----------------------------');
-    print('----------------------------');
     print('PASSEI PELO MyAuthInterceptor onError ');
-    print('----------------------------');
     print('----------------------------');
     if (extra case {'authorized_request': true}) {
       if (response != null &&

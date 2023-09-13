@@ -8,9 +8,11 @@ abstract class ProfileModel with _$ProfileModel {
   @JsonKey(includeIfNull: false)
   factory ProfileModel({
     required int id,
-    @JsonKey(name: 'user_id') required int userId,
-    @JsonKey(name: 'username') required String userName,
+    required int user,
+    String? nickname,
     String? name,
+    String? photo,
+    String? phone,
   }) = _ProfileModel;
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);

@@ -6,6 +6,7 @@ import 'package:poc_login/app/core/functional_program/either.dart';
 import 'package:poc_login/app/data/remote/dio/dio_client.dart';
 import 'package:poc_login/app/models/profile_model.dart';
 
+import '../../data/remote/api/endppoints.dart';
 import '../../models/user_model.dart';
 import './profile_repository.dart';
 
@@ -17,7 +18,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Either<RepositoryException, List<ProfileModel>>> list() async {
     try {
-      final Response(:List data) = await dioClient.auth.get('/api/v0/profile/');
+      final Response(:List data) =
+          await dioClient.auth.get(ApiV0EndPoints.profile);
       print('data: $data');
       final profileList = data.map((e) => ProfileModel.fromJson(e)).toList();
       print('profileList: $profileList');
@@ -38,14 +40,16 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<Either<RepositoryException, ProfileModel>> me(
       UserModel userModel) async {
     try {
-      final Response(:List data) = await dioClient.auth.get(
-        '/api/v0/profile/',
-        queryParameters: {
-          'user_id': userModel.id,
-        },
-      );
-      print(data);
-      return Success(ProfileModel.fromJson(data[0]));
+      // final Response(:List data) = await dioClient.auth.get(
+      //   ApiV0EndPoints.profile,
+      //   queryParameters: {
+      //     'user_id': userModel.id,
+      //   },
+      // );
+      // print(data);
+      final Response(:data) = await dioClient.auth.get(ApiV0EndPoints.userMe);
+
+      return Success(ProfileModel.fromJson(data['profile']));
     } on DioException catch (e, s) {
       log('Erro em ProfileRepositoryImpl.me DioException',
           name: 'ProfileRepositoryImpl.me DioException',

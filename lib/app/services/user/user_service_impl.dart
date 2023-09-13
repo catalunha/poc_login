@@ -47,7 +47,10 @@ class UserServiceImpl implements UserService {
   Future<bool> verifyToken() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     final token = sharedPreferences.getString(apiAccessTokenName);
-    return await userRepository.verifyToken(token ?? '0');
+    if (token == null) {
+      return false;
+    }
+    return await userRepository.verifyToken(token);
   }
 
   @override
